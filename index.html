@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>fincosto</title>
+<meta name="theme-color" content="#13254A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="fincosto">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root { --navy: #13254A; --deep: #0E1D33; --gold: #C9A04E; --text: #F3F5F9; --muted: #A9B3C6; }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; background: var(--deep); color: var(--text);
+    font-family: "Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif; }
+  #uygulama { position: fixed; inset: 0; width: 100%; height: 100%; border: 0;
+    padding-top: env(safe-area-inset-top, 0px); background: #fff; }
+  .ekran { min-height: 100%; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 22px; padding: 32px 24px; text-align: center; }
+  .marka { font-size: 30px; letter-spacing: -0.5px; }
+  .marka span { color: var(--gold); }
+  .ekran p { margin: 0; color: var(--muted); max-width: 320px; line-height: 1.5; }
+  form { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 320px; }
+  label { text-align: left; font-size: 14px; color: var(--muted); }
+  input { height: 52px; border-radius: 12px; border: 1px solid #2A3D63; background: #16284A;
+    color: var(--text); font-size: 17px; padding: 0 14px; width: 100%; }
+  input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+  button { height: 52px; border-radius: 12px; border: 0; background: var(--gold); color: var(--navy);
+    font-size: 16px; font-weight: 700; cursor: pointer; }
+  .hata { color: #F0A39C; font-size: 14px; min-height: 20px; }
+  .yukleniyor { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: var(--deep); transition: opacity .3s; }
+  .yukleniyor.gizli { opacity: 0; pointer-events: none; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<!-- Firma kodu ekranı: cihazda kayıtlı firma yoksa görünür -->
+<div class="ekran" id="firma-ekrani" hidden>
+  <img src="icon-192.png" width="88" height="88" alt="">
+  <div class="marka">fin<span>costo</span></div>
+  <p>Firmanızın size verdiği linki veya QR kodu açın ya da firma kodunu yazın.</p>
+  <form id="firma-formu" autocomplete="off">
+    <label for="firma-kodu">Firma kodu</label>
+    <input id="firma-kodu" name="firma-kodu" inputmode="text" autocapitalize="off"
+           spellcheck="false" placeholder="ornek_restoran" required>
+    <div class="hata" id="firma-hata" role="alert"></div>
+    <button type="submit">Devam</button>
+  </form>
+</div>
+
+<div class="yukleniyor" id="yukleniyor" hidden>
+  <img src="icon-192.png" width="72" height="72" alt="Yükleniyor">
+</div>
+
+<iframe id="uygulama" title="fincosto" hidden allow="camera; clipboard-write"></iframe>
+
+<script>
+  // ── AYAR: Apps Script web uygulamasının "exec" adresi ─────────────────────
+  // Apps Script → Dağıt → Dağıtımları yönet → Web uygulaması URL'si
+  var UYGULAMA_URL = 'https://script.google.com/macros/s/AKfycbx6D_XUvuc_v548o-wPYs7U4kEtGqKZ5gf2OB8R-ZMNa-3RiHavvIFYbwG7evahDbcS/exec';
+  // ──────────────────────────────────────────────────────────────────────────
+
+  var ANAHTAR = 'fincosto_firma';
+
+  function kaydet(k, v) { try { localStorage.setItem(k, v); } catch (_) {} }
+  function oku(k) { try { return localStorage.getItem(k) || ''; } catch (_) { return ''; } }
+  function temizle(k) { try { localStorage.removeItem(k); } catch (_) {} }
+  function duzelt(f) { return String(f || '').toLowerCase().replace(/[^a-z0-9_]/g, ''); }
+
+  // Firma kaynağı (öncelik sırasıyla): ?f=kod  →  /app/kod  →  cihazda kayıtlı firma
+  function firmaBul() {
+    var q = new URLSearchParams(location.search);
+    if (q.get('cikis') === '1') { temizle(ANAHTAR); return ''; }
+    var f = duzelt(q.get('f'));
+    if (!f) {
+      var parca = location.pathname.split('/').filter(Boolean).pop() || '';
+      if (parca && parca.indexOf('.') === -1 && parca !== 'app') f = duzelt(parca);
+    }
+    if (f) { kaydet(ANAHTAR, f); return f; }
+    return duzelt(oku(ANAHTAR));
+  }
+
+  function uygulamayiAc(firma) {
+    document.getElementById('firma-ekrani').hidden = true;
+    var yk = document.getElementById('yukleniyor');
+    var fr = document.getElementById('uygulama');
+    yk.hidden = false;
+    fr.hidden = false;
+    fr.addEventListener('load', function () { yk.classList.add('gizli'); }, { once: true });
+    fr.src = UYGULAMA_URL + '?f=' + encodeURIComponent(firma);
+    // Adreste ?f= yoksa ekle: "Ana ekrana ekle" bu adresi kaydeder, böylece
+    // ana ekrandaki ikon her açılışta doğru firmayla başlar (iPhone dahil).
+    var q = new URLSearchParams(location.search);
+    if (q.get('f') !== firma) history.replaceState(null, '', location.pathname + '?f=' + encodeURIComponent(firma));
+  }
+
+  function firmaSor() {
+    document.getElementById('firma-ekrani').hidden = false;
+    document.getElementById('firma-formu').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = duzelt(document.getElementById('firma-kodu').value);
+      if (!f) { document.getElementById('firma-hata').textContent = 'Firma kodu yalnızca harf, rakam ve _ içerebilir.'; return; }
+      kaydet(ANAHTAR, f);
+      uygulamayiAc(f);
+    });
+  }
+
+  var firma = firmaBul();
+  if (firma) uygulamayiAc(firma); else firmaSor();
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
