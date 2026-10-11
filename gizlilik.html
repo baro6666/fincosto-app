@@ -3,52 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fincosto · Gizlilik Politikası</title>
+<title>fincosto · Gizlilik Politikası ve Aydınlatma Metni</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <style>
-  :root { --navy: #13254A; --gold: #A07A2C; --text: #1F2A3D; --muted: #5B667B; --bg: #F4F5F8; }
+  :root { --navy: #13254A; --gold: #A07A2C; --text: #1F2A3D; --muted: #5B667B; --bg: #F4F5F8; --line: #D9DEE7; }
   body { margin: 0; background: var(--bg); color: var(--text);
     font-family: "Open Sans", "Segoe UI", system-ui, sans-serif; line-height: 1.65; }
-  main { max-width: 720px; margin: 0 auto; padding: 40px 20px 64px; }
-  h1 { color: var(--navy); font-size: 28px; margin: 0 0 4px; }
-  h2 { color: var(--navy); font-size: 18px; margin: 28px 0 6px; }
-  p, li { font-size: 15.5px; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 20px 64px; }
+  h1 { color: var(--navy); font-size: 28px; margin: 0 0 4px; line-height: 1.25; }
+  h2 { color: var(--navy); font-size: 18px; margin: 30px 0 8px; }
+  p, li, td, th { font-size: 15.5px; }
   .tarih { color: var(--muted); font-size: 14px; margin: 0 0 24px; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+  th, td { text-align: left; vertical-align: top; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+  th { color: var(--navy); font-weight: 700; }
+  .kutu { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
   a { color: var(--gold); }
 </style>
 </head>
 <body>
 <main>
-  <h1>Gizlilik Politikası</h1>
-  <p class="tarih">fincosto · Son güncelleme: 11 Ekim 2026</p>
+  <h1>Gizlilik Politikası ve Kişisel Verilerin İşlenmesine İlişkin Aydınlatma Metni</h1>
+  <p class="tarih">fincosto · Son güncelleme: 12 Ekim 2026</p>
 
-  <p>Bu politika, fincosto yönetim sistemi ve ona bağlı araçların (telefon uygulaması ve "Fincosto Yayıncı"
-  yayın aracı) hangi verileri nasıl işlediğini açıklar. Sistemin sağlayıcısı T. Baran Dinç'tir (fincosto).</p>
-
-  <h2>İşlenen veriler</h2>
+  <h2>1. Veri sorumlusu ve veri işleyen</h2>
+  <div class="kutu">
+    <b>T. Baran Dinç (fincosto)</b><br>
+    Barbaros Mah. Aykutlu Sok. No: 3/2, Ataşehir / İstanbul<br>
+    E-posta: <a href="mailto:t.barandinc@gmail.com">t.barandinc@gmail.com</a> · Telefon: +90 532 783 26 66
+  </div>
+  <p>fincosto, 6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında iki farklı sıfatla kişisel veri işler:</p>
   <ul>
-    <li><b>Müşteri işletmelerin verileri:</b> şube kasa kayıtları, personel bilgileri, puantaj, masraf, fatura,
-      stok ve sipariş kayıtları. Bu veriler her müşteri işletmenin kendi Google E-Tablolar dosyasında saklanır
-      ve yalnızca o işletmenin yetkili kullanıcılarına gösterilir.</li>
-    <li><b>Kullanıcı bilgileri:</b> ad soyad, rol, yetkili şubeler ve giriş PIN'i.</li>
-    <li><b>Fincosto Yayıncı:</b> yalnızca sistem sahibinin kendi Google hesabıyla çalışır; sistemin program
-      kodunu GitHub'dan okuyup sahibinin Apps Script projesine yükler. Kişisel veri işlemez, saklamaz veya paylaşmaz.</li>
+    <li><b>Veri sorumlusu olarak:</b> fincosto.com ziyaretçileri, bizimle iletişime geçenler ve müşteri işletmelerin yetkilileri hakkında.</li>
+    <li><b>Veri işleyen olarak:</b> Müşteri işletmelerin kendi çalışanlarına ait verileri, <b>o işletme adına ve onun talimatıyla</b> işler. Bu verilerin veri sorumlusu ilgili işletmedir. Bir müşteri işletmenin çalışanıysanız haklarınızı öncelikle çalıştığınız işletmeye karşı kullanırsınız; fincosto işletmenize bu konuda destek olur.</li>
   </ul>
 
-  <h2>Kullanım amacı</h2>
-  <p>Veriler yalnızca hizmetin sunulması (kayıt, onay, raporlama) için kullanılır. Reklam, profil çıkarma
-  veya üçüncü taraflara satış amacıyla kullanılmaz.</p>
+  <h2>2. İşlenen kişisel veriler</h2>
+  <p><b>Web sitesi ve iletişim:</b> ad-soyad, işletme adı, telefon, e-posta, mesaj içeriği; teknik olarak IP adresi ve tarayıcı bilgisi.</p>
+  <p><b>Uygulama (müşteri işletme adına):</b></p>
+  <ul>
+    <li><b>Kimlik:</b> ad-soyad, T.C. kimlik numarası, doğum tarihi</li>
+    <li><b>İletişim:</b> telefon, adres</li>
+    <li><b>Özlük ve çalışma:</b> görev, departman, şube, işe giriş ve çıkış tarihleri, puantaj, izin kayıtları, evraklar</li>
+    <li><b>Finans:</b> IBAN, maaş, avans, kesinti ve maaş farkı bilgileri</li>
+    <li><b>İşlem güvenliği:</b> kullanıcı adı, rol, giriş kayıtları (PIN'ler geri döndürülemez biçimde şifrelenerek saklanır)</li>
+    <li><b>İşletme kayıtları:</b> kasa, masraf, fatura, stok ve sipariş kayıtlarında yer alan isimler</li>
+  </ul>
+  <p>Uygulama özel nitelikli kişisel veri toplamak için tasarlanmamıştır. Sağlık raporu gibi belgelerin yüklenmesi müşteri işletmenin sorumluluğunda ve KVKK m.6'daki şartlara uygun olarak yapılmalıdır.</p>
 
-  <h2>Paylaşım ve saklama</h2>
-  <p>Veriler Google altyapısında (Google Drive / E-Tablolar) saklanır. Yasal zorunluluklar dışında üçüncü
-  kişilerle paylaşılmaz. Müşteri işletme hizmeti sonlandırdığında verileri kendisine teslim edilir.</p>
+  <h2>3. İşleme amaçları ve hukuki sebepler (KVKK m.5)</h2>
+  <table>
+    <tr><th>Amaç</th><th>Hukuki sebep</th></tr>
+    <tr><td>Hizmet sözleşmesinin kurulması ve ifası</td><td>Sözleşmenin kurulması ve ifası (m.5/2-c)</td></tr>
+    <tr><td>Müşteri işletme adına personel, kasa ve bordro süreçlerinin yürütülmesi</td><td>Müşteri işletmenin hukuki sebebine dayanarak, veri işleyen sıfatıyla</td></tr>
+    <tr><td>Faturalama, vergi ve muhasebe yükümlülükleri</td><td>Hukuki yükümlülük (m.5/2-ç)</td></tr>
+    <tr><td>Sistem güvenliği, yetkisiz erişimin önlenmesi, kayıt tutma</td><td>Meşru menfaat (m.5/2-f)</td></tr>
+    <tr><td>İletişim taleplerine dönüş</td><td>Sözleşmenin ifası ve meşru menfaat (m.5/2-c, f)</td></tr>
+  </table>
 
-  <h2>Haklarınız</h2>
-  <p>6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında verilerinize erişme, düzeltme ve silinmesini
-  isteme haklarınız vardır. Çalıştığınız işletme üzerinden veya aşağıdaki adresten başvurabilirsiniz.</p>
+  <h2>4. Kişisel verilerin aktarılması</h2>
+  <ul>
+    <li><b>Altyapı hizmet sağlayıcıları:</b> Veriler Google LLC'nin bulut altyapısında (Google Drive, Google E-Tablolar, Google Apps Script) saklanır; uygulamanın telefon kabuğu GitHub üzerinden sunulur. Bu sağlayıcıların sunucuları yurt dışında bulunabilir. Yurt dışına aktarım KVKK m.9'da öngörülen usullere uygun olarak yapılır.</li>
+    <li><b>Yetkili kamu kurumları:</b> yalnızca kanunun öngördüğü durumlarda ve ölçüde.</li>
+    <li>Kişisel veriler satılmaz; reklam veya profilleme amacıyla kullanılmaz.</li>
+  </ul>
 
-  <h2>İletişim</h2>
-  <p>fincosto · <a href="https://fincosto.com">fincosto.com</a></p>
+  <h2>5. Toplama yöntemi</h2>
+  <p>Veriler; web sitesindeki formlar, e-posta ve telefon yoluyla, uygulamada ise müşteri işletmenin yetkili kullanıcılarının girişleriyle elektronik ortamda toplanır.</p>
+
+  <h2>6. Saklama süresi</h2>
+  <ul>
+    <li><b>Uygulama verileri:</b> hizmet süresince; hizmet sona erdiğinde müşteri işletmeye teslim edilir ve 30 gün içinde silinir (işletme aksini yazılı istemedikçe).</li>
+    <li><b>Fatura ve muhasebe kayıtları:</b> ilgili mevzuattaki süreler boyunca.</li>
+    <li><b>Oturum kayıtları:</b> en fazla 30 gün; güvenlik kayıtları en fazla 1 yıl.</li>
+  </ul>
+
+  <h2>7. Güvenlik önlemleri</h2>
+  <p>Rol ve şube bazlı yetkilendirme, işletmeler arası veri ayrımı, şifreli PIN saklama, oturum süresi sınırlaması, hatalı giriş denemesi sınırı, değişiklik kayıtları ve sürüm geçmişi.</p>
+
+  <h2>8. Haklarınız (KVKK m.11)</h2>
+  <p>Kişisel verilerinizin işlenip işlenmediğini öğrenme, işlenmişse bilgi talep etme, işlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme, aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, KVKK m.7 çerçevesinde silinmesini veya yok edilmesini isteme, bu işlemlerin aktarıldığı kişilere bildirilmesini isteme, münhasıran otomatik sistemlerle analiz edilmesi sonucu aleyhinize bir sonuç çıkmasına itiraz etme ve kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme haklarına sahipsiniz.</p>
+  <p><b>Başvuru:</b> Kimliğinizi doğrulayan bilgilerle <a href="mailto:t.barandinc@gmail.com">t.barandinc@gmail.com</a> adresine e-posta ile ya da Barbaros Mah. Aykutlu Sok. No: 3/2, Ataşehir / İstanbul adresine yazılı olarak başvurabilirsiniz. Başvurular en geç 30 gün içinde ücretsiz olarak yanıtlanır.</p>
+  <p>Bir müşteri işletmenin çalışanıysanız başvurunuzu öncelikle çalıştığınız işletmeye yapmanız gerekir.</p>
 </main>
 </body>
 </html>
