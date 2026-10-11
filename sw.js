@@ -1,6 +1,6 @@
 // fincosto — en sade service worker.
 // Sadece kabuk dosyalarını (ikon, sayfa) önbelleğe alır; uygulama verisi her zaman canlı gelir.
-var SURUM = 'fincosto-kabuk-v1';
+var SURUM = 'fincosto-kabuk-v2';
 var DOSYALAR = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {
