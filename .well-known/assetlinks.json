@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.fincosto.app.twa",
+        "sha256_cert_fingerprints": ["FF:7F:88:D9:8D:89:EC:79:14:FD:B1:07:6D:36:92:69:A1:C6:4C:CA:E7:0B:6C:DB:46:87:44:84:DC:64:73:07"]
+      }
+    }]
