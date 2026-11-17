@@ -1,0 +1,76 @@
+# iPhone uygulamasını GitHub'ın Mac sunucusunda derler ve TestFlight'a yükler.
+# Gerekli depo sırları (Settings → Secrets and variables → Actions):
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 (App Store Connect API anahtarı, .p8 dosyasının içeriği)
+name: iOS → TestFlight
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['ios/**', '.github/workflows/ios.yml']
+
+concurrency:
+  group: ios
+  cancel-in-progress: false
+
+jobs:
+  derle:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Sırlar tanımlı mı
+        id: sir
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          if [ -z "$ASC_KEY_ID" ] || [ -z "$ASC_ISSUER_ID" ] || [ -z "$ASC_KEY_P8" ]; then
+            echo "::warning::ASC_KEY_ID / ASC_ISSUER_ID / ASC_KEY_P8 sırları henüz tanımlı değil; derleme atlandı."
+            echo "var=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "var=1" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Xcode projesini üret
+        if: steps.sir.outputs.var == '1'
+        run: |
+          brew install xcodegen
+          cd ios && xcodegen generate
+
+      - name: Arşivle (imzala)
+        if: steps.sir.outputs.var == '1'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          printf '%s' "$ASC_KEY_P8" > "$RUNNER_TEMP/asc/AuthKey.p8"
+          cd ios
+          xcodebuild -project Fincosto.xcodeproj -scheme Fincosto -configuration Release \
+            -destination 'generic/platform=iOS' -archivePath "$RUNNER_TEMP/Fincosto.xcarchive" \
+            CURRENT_PROJECT_VERSION=$((100 + GITHUB_RUN_NUMBER)) \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            archive | tail -n 80
+
+      - name: TestFlight'a yükle
+        if: steps.sir.outputs.var == '1'
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cd ios
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/Fincosto.xcarchive" \
+            -exportOptionsPlist ExportOptions.plist -exportPath "$RUNNER_TEMP/cikti" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+
+      - name: Anahtarı sil
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/asc"
