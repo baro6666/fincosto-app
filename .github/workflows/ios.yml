@@ -72,8 +72,9 @@ jobs:
           curl -sSfL -o "$S/wwdr.cer" https://www.apple.com/certificateauthority/AppleWWDRCAG3.cer
           security import "$S/wwdr.cer" -k "$KC" -T /usr/bin/codesign || true
           openssl x509 -inform DER -in "$S/sertifika.cer" -out "$S/sertifika.pem"
-          openssl pkcs12 -export -inkey "$S/anahtar.pem" -in "$S/sertifika.pem" -out "$S/imza.p12" -passout pass:ci 2>/dev/null \
-            || openssl pkcs12 -export -legacy -inkey "$S/anahtar.pem" -in "$S/sertifika.pem" -out "$S/imza.p12" -passout pass:ci
+          # macOS anahtarlığı yalnız eski PKCS12 biçimini (3DES + SHA1 MAC) okur
+          /usr/bin/openssl pkcs12 -export -inkey "$S/anahtar.pem" -in "$S/sertifika.pem" -out "$S/imza.p12" -passout pass:ci \
+            -keypbe PBE-SHA1-3DES -certpbe PBE-SHA1-3DES -macalg sha1
           security import "$S/imza.p12" -k "$KC" -P ci -T /usr/bin/codesign
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k ci "$KC" >/dev/null
           SHA1=$(openssl x509 -in "$S/sertifika.pem" -noout -fingerprint -sha1 | cut -d= -f2 | tr -d :)
