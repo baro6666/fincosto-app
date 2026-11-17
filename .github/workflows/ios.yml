@@ -68,7 +68,7 @@ jobs:
             -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
             archive | tail -n 80
 
-      - name: TestFlight'a yükle
+      - name: Dışa aktar (App Store imzası)
         if: steps.sir.outputs.var == '1'
         run: |
           cd ios
@@ -77,6 +77,36 @@ jobs:
             -allowProvisioningUpdates \
             -authenticationKeyPath "$RUNNER_TEMP/asc/AuthKey.p8" \
             -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"
+          ls -la "$RUNNER_TEMP/cikti"
+
+      - name: İmzayı incele
+        if: steps.sir.outputs.var == '1'
+        run: |
+          cd "$RUNNER_TEMP" && rm -rf ipa && mkdir ipa && cd ipa && unzip -q ../cikti/*.ipa
+          APP=$(ls -d Payload/*.app)
+          codesign -dvvv "$APP" 2>&1 | grep -v '^CDHash\|Hash=' || true
+          echo "--- yetkiler"; codesign -d --entitlements - "$APP" 2>&1 | head -40 || true
+          echo "--- doğrulama"; codesign --verify --deep --strict --verbose=4 "$APP" 2>&1 || true
+          echo "--- gereksinim"; codesign -d -r- "$APP" 2>&1 || true
+          echo "--- profil"; security cms -D -i "$APP/embedded.mobileprovision" 2>/dev/null | plutil -extract Name raw - 2>/dev/null || true
+          security cms -D -i "$APP/embedded.mobileprovision" 2>/dev/null | grep -A1 -E 'ProvisionsAllDevices|get-task-allow' || true
+          ls -la "$APP"
+
+      - name: TestFlight'a yükle
+        if: steps.sir.outputs.var == '1'
+        run: |
+          mkdir -p ~/.appstoreconnect/private_keys
+          cp "$RUNNER_TEMP/asc/AuthKey.p8" ~/.appstoreconnect/private_keys/AuthKey_${ASC_KEY_ID}.p8
+          xcrun altool --upload-app -f "$(ls $RUNNER_TEMP/cikti/*.ipa)" -t ios \
+            --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID" --output-format normal
+          rm -rf ~/.appstoreconnect
+
+      - name: Dağıtım kaydı (hata olursa)
+        if: failure()
+        run: |
+          for f in $(ls -d /var/folders/*/*/T/*.xcdistributionlogs 2>/dev/null); do
+            echo "== $f"; tail -n 120 "$f/IDEDistribution.standard.log" 2>/dev/null | grep -iv 'token\|authorization\|bearer' || true
+          done
 
       - name: Anahtarı sil
         if: always()
