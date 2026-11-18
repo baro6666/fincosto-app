@@ -93,11 +93,13 @@
     yk.hidden = false;
     fr.hidden = false;
     fr.addEventListener('load', function () { yk.classList.add('gizli'); }, { once: true });
-    fr.src = UYGULAMA_URL + '?f=' + encodeURIComponent(firma);
+    // Firma değiştirme / "gibi gir" tek kullanımlık kodu uygulamaya iletilir, adres çubuğundan silinir
+    var gir = new URLSearchParams(location.search).get('gir') || '';
+    fr.src = UYGULAMA_URL + '?f=' + encodeURIComponent(firma) + (/^[a-f0-9]{32}$/.test(gir) ? '&gir=' + gir : '');
     // Adreste ?f= yoksa ekle: "Ana ekrana ekle" bu adresi kaydeder, böylece
     // ana ekrandaki ikon her açılışta doğru firmayla başlar (iPhone dahil).
     var q = new URLSearchParams(location.search);
-    if (q.get('f') !== firma) history.replaceState(null, '', location.pathname + '?f=' + encodeURIComponent(firma));
+    if (q.get('f') !== firma || q.get('gir')) history.replaceState(null, '', location.pathname + '?f=' + encodeURIComponent(firma));
   }
 
   function firmaSor() {
@@ -110,6 +112,19 @@
       uygulamayiAc(f);
     });
   }
+
+  // Uygulama içinden "Firma değiştir": yalnız kendi adresimize geçilir
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.fincosto !== 'gecis' || typeof d.url !== 'string') return;
+    var hedef;
+    try { hedef = new URL(d.url); } catch (_) { return; }
+    if (hedef.origin !== location.origin) return;
+    var f = duzelt(hedef.searchParams.get('f'));
+    if (!f) return;
+    kaydet(ANAHTAR, f);
+    location.href = location.pathname + '?f=' + encodeURIComponent(f) + '&gir=' + encodeURIComponent(hedef.searchParams.get('gir') || '');
+  });
 
   var firma = firmaBul();
   if (firma) uygulamayiAc(firma); else firmaSor();
