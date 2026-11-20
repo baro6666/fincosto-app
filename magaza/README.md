@@ -50,3 +50,11 @@ Not: fincosto işletmelere yönelik bir hizmettir; uygulamayı kullanmak için i
 - Play: simge 512×512 (`icon-512.png`), öne çıkan görsel 1024×500, telefon ekran görüntüsü en az 2 adet (1080×1920)
 - App Store: 6.9" ekran görüntüleri 1290×2796 (en az 3), simge 1024×1024 (saydamlık yok)
 - Ekran görüntüleri demo firmasından alınacak (gerçek veri yok).
+
+## İndirme QR kodu
+
+Basılı QR her zaman **https://app.fincosto.com/indir** adresine gider (firmaya özel: `/indir?f=firmakodu`, açılınca firma kodu
+hazır gelir). Sayfa (`indir/index.html`) telefonu tanır: mağaza bağlantısı tanımlıysa App Store / Google Play'e, değilse
+iPhone'da "Ana Ekrana Ekle", Android'de "Uygulamayı yükle" adımlarına, bilgisayarda QR'a yönlendirir. Uygulamalar mağazaya
+çıkınca yalnız sayfadaki `PLAY_URL` / `APPSTORE_URL` doldurulur; **basılı QR değişmez**.
+Üretim: `python3 magaza/qr-uret.py [firmakodu]` → `magaza/qr/` (QR .svg/.png, A5 afiş .png/.pdf).

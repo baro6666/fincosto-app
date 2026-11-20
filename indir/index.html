@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>fincosto uygulamasını indir</title>
+<meta name="description" content="fincosto: şube kasa, personel ve maliyet takibi. Telefonunuza yükleyin.">
+<meta name="theme-color" content="#13254A">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+  :root { --navy: #13254A; --deep: #0E1D33; --gold: #C9A24A; --text: #F3F5F9; --muted: #A9B3C6; --line: #2A3D63; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; background: var(--deep); color: var(--text);
+    font-family: "Open Sans", "Segoe UI", system-ui, -apple-system, sans-serif; }
+  main { max-width: 420px; margin: 0 auto; padding: calc(28px + env(safe-area-inset-top, 0px)) 20px 36px;
+    display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .ikon { width: 88px; height: 88px; border-radius: 22px; box-shadow: 0 10px 28px rgba(0,0,0,.35); }
+  .marka { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; margin: 0; }
+  .marka span { color: var(--gold); }
+  .alt { margin: -8px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+  .firma { display: inline-block; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+    font-size: 13px; color: var(--muted); }
+  .firma b { color: var(--text); }
+  .kutu { width: 100%; background: #16284A; border: 1px solid var(--line); border-radius: 18px; padding: 18px;
+    text-align: left; }
+  .kutu h2 { margin: 0 0 12px; font-size: 16px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 54px;
+    border-radius: 14px; border: 0; background: var(--gold); color: var(--navy); font-size: 16px; font-weight: 700;
+    text-decoration: none; cursor: pointer; font-family: inherit; }
+  .btn.ikincil { background: transparent; color: var(--text); border: 1.5px solid var(--line); }
+  .btn + .btn { margin-top: 10px; }
+  ol { margin: 0; padding: 0; list-style: none; counter-reset: a; }
+  ol li { counter-increment: a; position: relative; padding: 0 0 14px 40px; line-height: 1.45; font-size: 15px; }
+  ol li:last-child { padding-bottom: 0; }
+  ol li::before { content: counter(a); position: absolute; left: 0; top: -2px; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--gold); color: var(--navy); font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; }
+  .sembol { display: inline-flex; vertical-align: -4px; }
+  .sembol svg { width: 20px; height: 20px; stroke: var(--gold); }
+  .not { color: var(--muted); font-size: 13px; line-height: 1.5; margin: 0; }
+  .qr { background: #fff; border-radius: 16px; padding: 14px; width: 220px; }
+  .qr img { width: 100%; display: block; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <img class="ikon" src="../icon-192.png" alt="">
+  <h1 class="marka">fin<span>costo</span></h1>
+  <p class="alt">Şube kasa, personel ve maliyet takibi</p>
+  <div class="firma" id="firma" hidden>Firma: <b id="firma-ad"></b></div>
+
+  <!-- Mağaza bağlantısı tanımlıysa -->
+  <section class="kutu" id="magaza" hidden>
+    <h2 id="magaza-baslik">Uygulamayı indirin</h2>
+    <a class="btn" id="magaza-btn" href="#">İndir</a>
+    <a class="btn ikincil" id="ac-btn-1" href="../">Tarayıcıda aç</a>
+  </section>
+
+  <!-- iPhone: Safari ile ana ekrana ekleme -->
+  <section class="kutu" id="ios" hidden>
+    <h2>iPhone'a yükleyin</h2>
+    <ol>
+      <li>Aşağıdaki <b>Uygulamayı aç</b> düğmesine dokunun (Safari'de açılmalı).</li>
+      <li>Alttaki <b>Paylaş</b> <span class="sembol"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg></span> simgesine dokunun.</li>
+      <li><b>Ana Ekrana Ekle</b>'yi seçip <b>Ekle</b>'ye basın. fincosto ikonu ana ekranınıza gelir.</li>
+    </ol>
+    <a class="btn" id="ac-btn-2" href="../" style="margin-top:16px">Uygulamayı aç</a>
+  </section>
+
+  <!-- Android: Chrome yükleme -->
+  <section class="kutu" id="android" hidden>
+    <h2>Telefona yükleyin</h2>
+    <button class="btn" id="yukle-btn" hidden>Uygulamayı yükle</button>
+    <ol id="android-adim">
+      <li>Bu sayfayı <b>Chrome</b> ile açın.</li>
+      <li>Sağ üstteki <b>⋮</b> menüsüne dokunun.</li>
+      <li><b>Uygulamayı yükle</b> ya da <b>Ana ekrana ekle</b>'yi seçin.</li>
+    </ol>
+    <a class="btn ikincil" id="ac-btn-3" href="../" style="margin-top:16px">Uygulamayı aç</a>
+  </section>
+
+  <!-- Bilgisayar: QR göster -->
+  <section class="kutu" id="masaustu" hidden style="text-align:center">
+    <h2>Telefonunuzla okutun</h2>
+    <div class="qr" style="margin:0 auto 14px"><img id="qr-img" src="../magaza/qr/fincosto-indir-qr.svg" alt="İndirme QR kodu"></div>
+    <p class="not" style="margin-bottom:14px">Telefonun kamerasını QR koda tutun, çıkan bağlantıya dokunun.</p>
+    <a class="btn ikincil" id="ac-btn-4" href="../">Bilgisayarda aç</a>
+  </section>
+
+  <p class="not">Giriş için işletmenizin size verdiği <b>firma kodu</b> ve kişisel <b>PIN</b>'iniz gerekir.</p>
+</main>
+<script>
+(function () {
+  // ── Mağaza bağlantıları: uygulama yayına girince doldurun; basılı QR kod değişmez ──
+  var PLAY_URL = '';      // ör. 'https://play.google.com/store/apps/details?id=com.fincosto.app.twa'
+  var APPSTORE_URL = '';  // ör. 'https://apps.apple.com/tr/app/fincosto/id0000000000'
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  function duzelt(f) { return String(f || '').toLowerCase().replace(/[^a-z0-9_]/g, ''); }
+  var q = new URLSearchParams(location.search);
+  var firma = duzelt(q.get('f'));
+  try { if (firma) localStorage.setItem('fincosto_firma', firma); else firma = duzelt(localStorage.getItem('fincosto_firma')); } catch (_) {}
+  var acUrl = '../' + (firma ? '?f=' + encodeURIComponent(firma) : '');
+  ['ac-btn-1', 'ac-btn-2', 'ac-btn-3', 'ac-btn-4'].forEach(function (id) { document.getElementById(id).href = acUrl; });
+  if (firma) { document.getElementById('firma').hidden = false; document.getElementById('firma-ad').textContent = firma; }
+
+  var ua = navigator.userAgent || '';
+  var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var android = /Android/i.test(ua);
+  var kurulu = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (kurulu) { location.replace(acUrl); return; }
+
+  function magaza(url, baslik, etiket) {
+    document.getElementById('magaza').hidden = false;
+    document.getElementById('magaza-baslik').textContent = baslik;
+    var b = document.getElementById('magaza-btn'); b.href = url; b.textContent = etiket;
+  }
+  if (ios && APPSTORE_URL) magaza(APPSTORE_URL, 'App Store\'dan indirin', 'App Store\'da aç');
+  else if (ios) document.getElementById('ios').hidden = false;
+  else if (android && PLAY_URL) magaza(PLAY_URL, 'Google Play\'den indirin', 'Google Play\'de aç');
+  else if (android) document.getElementById('android').hidden = false;
+  else document.getElementById('masaustu').hidden = false;
+
+  // Android Chrome: doğrudan "Uygulamayı yükle" penceresi
+  var istem = null;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); istem = e;
+    if (!android || PLAY_URL) return;
+    document.getElementById('yukle-btn').hidden = false;
+    document.getElementById('android-adim').hidden = true;
+  });
+  document.getElementById('yukle-btn').addEventListener('click', function () {
+    if (!istem) return;
+    istem.prompt();
+    istem.userChoice.then(function (c) { if (c.outcome === 'accepted') document.getElementById('yukle-btn').textContent = 'Yükleniyor… ana ekranınıza bakın'; });
+  });
+  window.addEventListener('appinstalled', function () { document.getElementById('yukle-btn').textContent = '✓ Yüklendi'; });
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('../sw.js').catch(function () {});
+})();
+</script>
+</body>
+</html>
