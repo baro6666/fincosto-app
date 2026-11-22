@@ -103,6 +103,10 @@ def durum():
         print('Fiyat çizelgesi: yok')
 
 
+YAS_EVET_HAYIR = {'gambling', 'unrestrictedWebAccess', 'lootBox', 'advertising', 'ageAssurance', 'healthOrWellnessTopics',
+                  'messagingAndChat', 'parentalControls', 'userGeneratedContent', 'socialMedia', 'seventeenPlus'}
+
+
 def _yerel(liste, locale):
     return [x for x in liste if x['attributes']['locale'] == locale]
 
@@ -148,7 +152,13 @@ def doldur(metin_yolu):
     print('Kategori:', m['kategori'])
     # Yaş sınırı: her şey yok → 4+
     yas = istek('GET', f"/v1/appInfos/{i['id']}/ageRatingDeclaration")['data']
-    istek('PATCH', f"/v1/ageRatingDeclarations/{yas['id']}", {'data': {'type': 'ageRatingDeclarations', 'id': yas['id'], 'attributes': m['yas']}})
+    print('Yaş anketi alanları:', sorted(yas['attributes'].keys()))
+    yat = {}
+    for k, v in yas['attributes'].items():   # boş kalan yeni sorular: evet/hayır olanlar False, derece olanlar NONE
+        if v is None and k not in ('kidsAgeBand', 'ageRatingOverride', 'ageRatingOverrideV2', 'koreaAgeRatingOverride'):
+            yat[k] = False if k in YAS_EVET_HAYIR else 'NONE'
+    yat.update(m['yas'])
+    istek('PATCH', f"/v1/ageRatingDeclarations/{yas['id']}", {'data': {'type': 'ageRatingDeclarations', 'id': yas['id'], 'attributes': yat}})
     print('Yaş sınırı anketi dolduruldu')
     # Ücretsiz: temel ülke TR, fiyat noktası 0
     try:
