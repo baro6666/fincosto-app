@@ -1,0 +1,44 @@
+# App Store Connect mağaza kaydı (metin, görsel, yaş sınırı, fiyat, inceleme bilgisi) — elle başlatılır.
+# Sırlar: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8; inceleme girişi için DEMO_PIN (demo firması, yalnız örnek veri).
+name: App Store kaydı
+
+on:
+  workflow_dispatch:
+    inputs:
+      islem:
+        description: 'durum | doldur | gorsel | gonder'
+        required: true
+        default: durum
+
+jobs:
+  magaza:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      BUNDLE_ID: com.fincosto.app
+    steps:
+      - uses: actions/checkout@v4
+      - name: Anahtar
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/asc"
+          printf '%s\n' "$ASC_KEY_P8" | tr -d '\r' > "$RUNNER_TEMP/asc/AuthKey.p8"
+          echo "ASC_KEY_ID=$(printf '%s' "$ASC_KEY_ID" | tr -d '[:space:]')" >> "$GITHUB_ENV"
+          echo "ASC_ISSUER_ID=$(printf '%s' "$ASC_ISSUER_ID" | tr -d '[:space:]')" >> "$GITHUB_ENV"
+          echo "ASC_KEY_PATH=$RUNNER_TEMP/asc/AuthKey.p8" >> "$GITHUB_ENV"
+          pip install -q pyjwt cryptography
+      - name: İşlem
+        env:
+          DEMO_KOD: demo
+          DEMO_PIN: ${{ secrets.DEMO_PIN }}
+        run: |
+          case "${{ github.event.inputs.islem }}" in
+            durum)  python3 magaza/asc/magaza.py durum ;;
+            doldur) python3 magaza/asc/magaza.py doldur magaza/asc/metin.json ;;
+            gorsel) python3 magaza/asc/magaza.py gorsel magaza/ekran/appstore ;;
+            gonder) python3 magaza/asc/magaza.py gonder ;;
+            *) echo "bilinmeyen işlem"; exit 1 ;;
+          esac
