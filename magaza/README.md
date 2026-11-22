@@ -4,7 +4,7 @@ Hesap: kişisel (T. Baran Dinç). Uygulama: app.fincosto.com kabuğu (Android: T
 
 ## Ortak metinler
 
-**Uygulama adı (30 karakter):** fincosto – Şube Yönetimi
+**Uygulama adı:** fincosto
 
 **Kısa açıklama (Play, 80 karakter):** Restoran ve şubeler için kasa, personel, puantaj, masraf ve fatura takibi.
 

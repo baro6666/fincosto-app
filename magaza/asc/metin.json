@@ -8,7 +8,7 @@
  "kategori": "BUSINESS",
  "metin": {
   "tr": {
-   "ad": "fincosto – Şube Yönetimi",
+   "ad": "fincosto",
    "altbaslik": "Kasa, personel ve şube takibi",
    "aciklama": "fincosto; restoran, kafe ve çok şubeli işletmelerin günlük operasyonunu tek uygulamada toplar. İşletmeniz fincosto'ya kayıtlıysa size verilen firma kodu ve kişisel PIN'inizle giriş yaparsınız; her çalışan yalnız rolüne açılan ekranları görür.\n\n• Kasa: günlük nakit kaydı, kasa raporu, kasa farkları, POS (Kerzz, ROP) aktarımı\n• Personel: işe giriş / çıkış, puantaj, izin ve alacak izin, evrak takibi\n• Bordro: maaş, avans, kesinti ve mesai hesapları\n• Masraf ve fatura: fiş ile masraf girişi, gelen faturalar, cari hesaplar ve ekstreler\n• Stok: günlük sayım, fark raporu, sipariş\n• Onay akışı: müdür ve merkez onayları, bildirimler\n• Rol ve kart yetkileri: işletme sahibi kimin hangi ekranı göreceğini seçer\n\nVerileriniz işletmenizin kendi Google hesabındaki tablolarda tutulur. PIN'ler şifreli (geri çözülemez özet) saklanır.\n\nNot: fincosto işletmelere yönelik bir hizmettir; uygulamayı kullanmak için işletmenizin fincosto hesabı olmalıdır. Bilgi: baran@fincosto.com",
    "anahtar": "restoran,kasa,puantaj,personel,bordro,şube,masraf,fatura,stok,işletme,pos,cari",
