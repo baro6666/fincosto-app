@@ -197,7 +197,9 @@ def doldur(metin_yolu):
     r = m['inceleme']
     at = {'contactFirstName': r['ad'], 'contactLastName': r['soyad'], 'contactEmail': r['eposta'], 
           'demoAccountRequired': True, 'demoAccountName': os.environ.get('DEMO_KOD', 'demo'),
-          'demoAccountPassword': os.environ.get('DEMO_PIN', ''), 'notes': r['not']}
+          'notes': r['not']}
+    if os.environ.get('DEMO_PIN'):   # boşsa App Store Connect'te elle girilen şifreye dokunma
+        at['demoAccountPassword'] = os.environ['DEMO_PIN']
     if r.get('telefon'):
         at['contactPhone'] = r['telefon']
     try:
@@ -209,7 +211,7 @@ def doldur(metin_yolu):
     else:
         istek('POST', '/v1/appStoreReviewDetails', {'data': {'type': 'appStoreReviewDetails', 'attributes': at,
               'relationships': {'appStoreVersion': {'data': {'type': 'appStoreVersions', 'id': vid}}}}})
-    print('İnceleme bilgisi yazıldı (demo giriş:', 'PIN dolu' if at['demoAccountPassword'] else 'PIN BOŞ', ')')
+    print('İnceleme bilgisi yazıldı')
     # Son işlenmiş yapıyı seç
     bs = istek('GET', f'/v1/builds?filter[app]={aid}&filter[processingState]=VALID&sort=-uploadedDate&limit=1')['data']
     if bs:
