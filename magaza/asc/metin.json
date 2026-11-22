@@ -1,0 +1,41 @@
+{
+ "dil": "tr",
+ "surum": "1.0",
+ "telif": "2026 T. Baran Dinç",
+ "destek": "https://app.fincosto.com/indir",
+ "pazarlama": "https://app.fincosto.com/indir",
+ "gizlilik": "https://app.fincosto.com/gizlilik.html",
+ "kategori": "BUSINESS",
+ "metin": {
+  "tr": {
+   "ad": "fincosto – Şube Yönetimi",
+   "altbaslik": "Kasa, personel ve şube takibi",
+   "aciklama": "fincosto; restoran, kafe ve çok şubeli işletmelerin günlük operasyonunu tek uygulamada toplar. İşletmeniz fincosto'ya kayıtlıysa size verilen firma kodu ve kişisel PIN'inizle giriş yaparsınız; her çalışan yalnız rolüne açılan ekranları görür.\n\n• Kasa: günlük nakit kaydı, kasa raporu, kasa farkları, POS (Kerzz, ROP) aktarımı\n• Personel: işe giriş / çıkış, puantaj, izin ve alacak izin, evrak takibi\n• Bordro: maaş, avans, kesinti ve mesai hesapları\n• Masraf ve fatura: fiş ile masraf girişi, gelen faturalar, cari hesaplar ve ekstreler\n• Stok: günlük sayım, fark raporu, sipariş\n• Onay akışı: müdür ve merkez onayları, bildirimler\n• Rol ve kart yetkileri: işletme sahibi kimin hangi ekranı göreceğini seçer\n\nVerileriniz işletmenizin kendi Google hesabındaki tablolarda tutulur. PIN'ler şifreli (geri çözülemez özet) saklanır.\n\nNot: fincosto işletmelere yönelik bir hizmettir; uygulamayı kullanmak için işletmenizin fincosto hesabı olmalıdır. Bilgi: baran@fincosto.com",
+   "anahtar": "restoran,kasa,puantaj,personel,bordro,şube,masraf,fatura,stok,işletme,pos,cari",
+   "tanitim": "Şubelerinizin kasa, personel ve masrafını tek ekrandan takip edin."
+  }
+ },
+ "yas": {
+  "alcoholTobaccoOrDrugUseOrReferences": "NONE",
+  "contests": "NONE",
+  "gamblingSimulated": "NONE",
+  "horrorOrFearThemes": "NONE",
+  "matureOrSuggestiveThemes": "NONE",
+  "medicalOrTreatmentInformation": "NONE",
+  "profanityOrCrudeHumor": "NONE",
+  "sexualContentGraphicAndNudity": "NONE",
+  "sexualContentOrNudity": "NONE",
+  "violenceCartoonOrFantasy": "NONE",
+  "violenceRealistic": "NONE",
+  "violenceRealisticProlongedGraphicOrSadistic": "NONE",
+  "gambling": false,
+  "unrestrictedWebAccess": false
+ },
+ "inceleme": {
+  "ad": "T. Baran",
+  "soyad": "Dinç",
+  "eposta": "baran@fincosto.com",
+  "telefon": "",
+  "not": "fincosto is a business (B2B) app for restaurant and multi-branch operators. Accounts are created by the business owner; there is no public sign-up.\nDemo access: open the app, enter company code \"demo\" (Firma kodu), then the PIN given in the password field. The demo company \"Demo Restoran\" contains sample data only (fictional staff, cash and expense records). The PIN logs in as the owner/manager role (Patron) to show reports; cashier and manager screens are reached from the same app with other demo users on request.\nThe interface language is Turkish."
+ }
+}
