@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       islem:
-        description: 'durum | doldur | gorsel | gonder'
+        description: 'durum | doldur | gorsel | gonder | iptal | adduzelt'
         required: true
         default: durum
 
@@ -40,5 +40,7 @@ jobs:
             doldur) python3 magaza/asc/magaza.py doldur magaza/asc/metin.json ;;
             gorsel) python3 magaza/asc/magaza.py gorsel magaza/ekran/appstore ;;
             gonder) python3 magaza/asc/magaza.py gonder ;;
+            iptal)  python3 magaza/asc/magaza.py iptal ;;
+            adduzelt) python3 magaza/asc/magaza.py adduzelt magaza/asc/metin.json ;;
             *) echo "bilinmeyen işlem"; exit 1 ;;
           esac

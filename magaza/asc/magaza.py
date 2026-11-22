@@ -248,6 +248,14 @@ def gorsel(klasor):
             print('Görsel yüklendi:', l['attributes']['locale'], ad)
 
 
+def iptal():
+    a = uygulama()
+    for durum in ('WAITING_FOR_REVIEW', 'IN_REVIEW', 'UNRESOLVED_ISSUES'):
+        for s in istek('GET', f"/v1/reviewSubmissions?filter[app]={a['id']}&filter[state]={durum}&filter[platform]=IOS")['data']:
+            istek('PATCH', f"/v1/reviewSubmissions/{s['id']}", {'data': {'type': 'reviewSubmissions', 'id': s['id'], 'attributes': {'canceled': True}}})
+            print('Gönderim geri çekildi:', durum)
+
+
 def gonder():
     a = uygulama(); v = surum(a['id'])
     istek('PATCH', f"/v1/apps/{a['id']}", {'data': {'type': 'apps', 'id': a['id'], 'attributes': {
@@ -277,4 +285,15 @@ if __name__ == '__main__':
     elif k == 'gorsel':
         gorsel(sys.argv[2])
     elif k == 'gonder':
+        gonder()
+    elif k == 'iptal':
+        iptal()
+    elif k == 'adduzelt':   # gönderimi geri çek, metinleri yaz, yeniden gönder
+        iptal()
+        for _ in range(30):
+            v = surum(uygulama()['id'])
+            if v['attributes']['appStoreState'] in ('DEVELOPER_REJECTED', 'PREPARE_FOR_SUBMISSION'):
+                break
+            time.sleep(10)
+        doldur(sys.argv[2])
         gonder()
