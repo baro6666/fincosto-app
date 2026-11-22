@@ -250,8 +250,17 @@ def gorsel(klasor):
 
 def gonder():
     a = uygulama(); v = surum(a['id'])
-    s = istek('POST', '/v1/reviewSubmissions', {'data': {'type': 'reviewSubmissions', 'attributes': {'platform': 'IOS'},
+    istek('PATCH', f"/v1/apps/{a['id']}", {'data': {'type': 'apps', 'id': a['id'], 'attributes': {
+        'contentRightsDeclaration': 'DOES_NOT_USE_THIRD_PARTY_CONTENT'}}})
+    print('İçerik hakları beyanı: üçüncü taraf içerik yok')
+    acik = istek('GET', f"/v1/reviewSubmissions?filter[app]={a['id']}&filter[state]=READY_FOR_REVIEW&filter[platform]=IOS")['data']
+    s = acik[0] if acik else istek('POST', '/v1/reviewSubmissions', {'data': {'type': 'reviewSubmissions', 'attributes': {'platform': 'IOS'},
               'relationships': {'app': {'data': {'type': 'apps', 'id': a['id']}}}}})['data']
+    mevcut = istek('GET', f"/v1/reviewSubmissions/{s['id']}/items")['data']
+    if mevcut:
+        istek('PATCH', f"/v1/reviewSubmissions/{s['id']}", {'data': {'type': 'reviewSubmissions', 'id': s['id'], 'attributes': {'submitted': True}}})
+        print('İncelemeye gönderildi')
+        return
     istek('POST', '/v1/reviewSubmissionItems', {'data': {'type': 'reviewSubmissionItems', 'relationships': {
         'reviewSubmission': {'data': {'type': 'reviewSubmissions', 'id': s['id']}},
         'appStoreVersion': {'data': {'type': 'appStoreVersions', 'id': v['id']}}}}})
