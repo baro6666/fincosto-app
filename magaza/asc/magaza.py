@@ -35,7 +35,8 @@ def istek(yontem, yol, govde=None, ham=None, basliklar=None, tam_url=None):
             b = r.read()
             return json.loads(b) if b and r.headers.get('Content-Type', '').startswith('application/json') else {}
     except urllib.error.HTTPError as e:
-        print(f'API hatası {e.code} {yontem} {yol or tam_url[:60]}: {e.read().decode(errors="replace")[:1500]}', file=sys.stderr)
+        e.govde = e.read().decode(errors="replace")
+        print(f'API hatası {e.code} {yontem} {yol or tam_url[:60]}: {e.govde[:1500]}', file=sys.stderr)
         raise
 
 
@@ -158,7 +159,26 @@ def doldur(metin_yolu):
         if v is None and k not in ('kidsAgeBand', 'ageRatingOverride', 'ageRatingOverrideV2', 'koreaAgeRatingOverride'):
             yat[k] = False if k in YAS_EVET_HAYIR else 'NONE'
     yat.update(m['yas'])
-    istek('PATCH', f"/v1/ageRatingDeclarations/{yas['id']}", {'data': {'type': 'ageRatingDeclarations', 'id': yas['id'], 'attributes': yat}})
+    for k in ('developerAgeRatingInfoUrl', 'gracRatingClassificationNumber'):
+        yat.pop(k, None)
+    for deneme in range(6):   # Apple alanların türünü hata mesajında söyler: ona göre düzeltip yeniden dene
+        try:
+            istek('PATCH', f"/v1/ageRatingDeclarations/{yas['id']}", {'data': {'type': 'ageRatingDeclarations', 'id': yas['id'], 'attributes': yat}})
+            break
+        except urllib.error.HTTPError as e:
+            if e.code != 409 or deneme == 5:
+                raise
+            for h in json.loads(e.govde).get('errors', []):
+                alan = (h.get('source') or {}).get('pointer', '').split('/')[-1]
+                d = h.get('detail', '')
+                if 'Expected a BOOLEAN' in d:
+                    yat[alan] = False
+                elif 'Expected a STRING' in d or 'not a valid' in d.lower() or 'one of' in d.lower():
+                    yat[alan] = 'NONE'
+                elif 'must provide a value' in d:
+                    yat[alan] = False if alan in YAS_EVET_HAYIR else 'NONE'
+                elif alan in yat:
+                    yat.pop(alan)
     print('Yaş sınırı anketi dolduruldu')
     # Ücretsiz: temel ülke TR, fiyat noktası 0
     try:
