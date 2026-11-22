@@ -35,7 +35,7 @@ Not: fincosto işletmelere yönelik bir hizmettir; uygulamayı kullanmak için i
 > fincosto is a business (B2B) app for restaurant and multi-branch operators. Accounts are created by the business owner; there is no public sign-up.
 > Demo access: open the app, enter company code `demo`, then PIN `______` (Owner) or `______` (Cashier). The demo company contains sample data only.
 
-(Demo firması kurulunca PIN'ler buraya yazılır — gerçek müşteri verisi kullanılmaz.)
+Demo firması: kod `demo` ("Demo Restoran", uydurma veri). Demo PIN'leri bu depoya yazılmaz (depo herkese açık); App Store Connect → App Review → Sign-in bölümüne ve Play Console → Uygulama erişimi'ne elle girilir.
 
 ## Google Play — Veri güvenliği formu (taslak)
 
@@ -58,3 +58,10 @@ hazır gelir). Sayfa (`indir/index.html`) telefonu tanır: mağaza bağlantısı
 iPhone'da "Ana Ekrana Ekle", Android'de "Uygulamayı yükle" adımlarına, bilgisayarda QR'a yönlendirir. Uygulamalar mağazaya
 çıkınca yalnız sayfadaki `PLAY_URL` / `APPSTORE_URL` doldurulur; **basılı QR değişmez**.
 Üretim: `python3 magaza/qr-uret.py [firmakodu]` → `magaza/qr/` (QR .svg/.png, A5 afiş .png/.pdf).
+
+## App Store kaydı (API)
+
+GitHub → Actions → **App Store kaydı** → Run workflow → `islem`:
+`durum` (okur) · `doldur` (metin.json: metinler, kategori, yaş sınırı, ücretsiz, inceleme bilgisi, son yapı) · `gorsel`
+(`magaza/ekran/appstore`) · `gonder` (incelemeye gönderir). **App Privacy** bölümü API'de yok, elle doldurulur.
+Ekran görüntüleri: `magaza/ekran/play` (1080×1920), `magaza/ekran/appstore` (1290×2796), demo firmadan.
