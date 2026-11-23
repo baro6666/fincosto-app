@@ -1,8 +1,15 @@
-[{
-      "relation": ["delegate_permission/common.handle_all_urls"],
-      "target": {
-        "namespace": "android_app",
-        "package_name": "com.fincosto.app.twa",
-        "sha256_cert_fingerprints": ["FF:7F:88:D9:8D:89:EC:79:14:FD:B1:07:6D:36:92:69:A1:C6:4C:CA:E7:0B:6C:DB:46:87:44:84:DC:64:73:07"]
-      }
-    }]
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fincosto.app.twa",
+      "sha256_cert_fingerprints": [
+        "FF:7F:88:D9:8D:89:EC:79:14:FD:B1:07:6D:36:92:69:A1:C6:4C:CA:E7:0B:6C:DB:46:87:44:84:DC:64:73:07",
+        "FE:ED:8D:D7:02:7D:AD:74:38:7F:C5:32:92:7B:36:09:73:0F:FC:1F:7A:AA:5A:2A:10:A0:04:22:DE:CA:B4:90"
+      ]
+    }
+  }
+]
